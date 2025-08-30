@@ -44,8 +44,8 @@
       }
     ],
     "imageResize": true,
-    "favicon": false,
-    "mbrsiteDomain": "a9ndfcjpju",
+    "favicon": "@PROJECT_PATH@/assets/images/lins-logo-rbg-drop-128x165.png",
+    "mbrsiteDomain": "gs4kenq2wg",
     "usedWebp": false,
     "robotsSwitcher": false,
     "sitemapSwitcher": false,
