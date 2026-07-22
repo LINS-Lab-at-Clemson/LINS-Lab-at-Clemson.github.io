@@ -1,0 +1,38 @@
+<footer class="site-footer">
+  <div class="shell footer-grid">
+    <div class="footer-intro">
+      <p class="footer-mark">LINS <span>LAB</span></p>
+      <p class="footer-tagline">Connecting science, decisions, and society for resilient water futures.</p>
+      <nav class="footer-profiles" aria-label="Research and professional profiles">
+        <a href="mailto:{{ site.Params.email }}" aria-label="Email Chung-Yi Lin" title="Email">
+          <span class="profile-glyph profile-glyph-email" aria-hidden="true"></span>
+        </a>
+        <a href="{{ site.Params.orcidURL }}" target="_blank" rel="noopener" aria-label="ORCID profile" title="ORCID">
+          <span class="profile-glyph profile-glyph-orcid" aria-hidden="true"></span>
+        </a>
+        <a href="{{ site.Params.scholarURL }}" target="_blank" rel="noopener" aria-label="Google Scholar profile" title="Google Scholar">
+          <span class="profile-glyph profile-glyph-scholar" aria-hidden="true"></span>
+        </a>
+        <a href="{{ site.Params.githubURL }}" target="_blank" rel="noopener" aria-label="LINS Lab GitHub" title="Lab GitHub">
+          <span class="profile-glyph profile-glyph-github" aria-hidden="true"></span>
+        </a>
+        <a href="{{ site.Params.linkedinURL }}" target="_blank" rel="noopener" aria-label="LinkedIn profile" title="LinkedIn">
+          <span class="profile-glyph profile-glyph-linkedin" aria-hidden="true"></span>
+        </a>
+      </nav>
+    </div>
+    <div class="footer-block">
+      <p class="footer-label">Find us</p>
+      <p>{{ site.Params.address }}</p>
+      <a href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a>
+    </div>
+    <div class="footer-block">
+      <p class="footer-label">Clemson University</p>
+      <a href="{{ site.Params.schoolURL }}" rel="noopener">{{ site.Params.school }}</a>
+    </div>
+  </div>
+  <div class="shell footer-bottom">
+    <p>© {{ now.Year }} LINS Lab <span aria-hidden="true">·</span> Last updated {{ now.Format "January 2, 2006" }}</p>
+    <p>Built for curiosity, collaboration, and impact.</p>
+  </div>
+</footer>

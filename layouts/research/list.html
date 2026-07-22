@@ -1,0 +1,58 @@
+{{ define "main" }}
+<section class="research-intro">
+  <div class="research-intro-grid">
+    <div class="research-intro-image">
+      <img src="{{ "images/research/research-overview-hd.png" | relURL }}" alt="A connected human-water system spanning agriculture, cities, and watersheds">
+    </div>
+    <div class="research-intro-copy prose">
+      <div class="research-network" aria-hidden="true">
+        <span class="research-orbit research-orbit-one"></span>
+        <span class="research-orbit research-orbit-two"></span>
+        <span class="research-node research-node-one"></span>
+        <span class="research-node research-node-two"></span>
+        <span class="research-node research-node-three"></span>
+      </div>
+      {{ .Content }}
+    </div>
+  </div>
+</section>
+
+<section class="research-projects" id="research-projects">
+  <div class="shell">
+    <div class="research-projects-header">
+      <h2 class="eyebrow research-projects-title">Research projects</h2>
+      <div class="project-view-controls" role="group" aria-label="Choose a research project layout">
+        <button class="project-view-button" type="button" data-project-view-button="standard" aria-pressed="true">
+          <span class="project-view-icon project-view-icon-standard" aria-hidden="true"></span>
+          Gallery
+        </button>
+        <button class="project-view-button" type="button" data-project-view-button="grid" aria-pressed="false">
+          <span class="project-view-icon project-view-icon-grid" aria-hidden="true"></span>
+          Compact
+        </button>
+        <button class="project-view-button" type="button" data-project-view-button="list" aria-pressed="false">
+          <span class="project-view-icon project-view-icon-list" aria-hidden="true"></span>
+          List
+        </button>
+      </div>
+    </div>
+    <div class="project-grid" data-project-grid data-project-view="standard">
+      {{ range $project := .Pages.ByWeight }}
+        <article class="project-card">
+          <a class="project-card-image" href="{{ $project.RelPermalink }}" aria-label="Read about {{ $project.Title }}">
+            <img src="{{ strings.TrimPrefix "/" $project.Params.image | relURL }}" alt="" loading="lazy">
+          </a>
+          <div class="project-card-content">
+            <div class="project-card-tags">
+              {{ range $project.Params.tags }}<span>{{ . }}</span>{{ end }}
+            </div>
+            <h3><a href="{{ $project.RelPermalink }}">{{ $project.Title }}</a></h3>
+            <p>{{ $project.Params.summary }}</p>
+            <a class="project-card-link" href="{{ $project.RelPermalink }}">Explore project <span aria-hidden="true">→</span></a>
+          </div>
+        </article>
+      {{ end }}
+    </div>
+  </div>
+</section>
+{{ end }}

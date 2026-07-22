@@ -1,0 +1,120 @@
+{{ define "main" }}
+<section class="opportunity-page shell">
+  <div class="opportunity-layout">
+    <article class="prose opportunity-content">
+      {{ .Content }}
+    </article>
+    <aside class="opportunity-card">
+      <div class="application-submit-notice" data-application-submit-notice hidden tabindex="-1">
+        <strong>Application submitted.</strong>
+        <span>Thank you. Your materials were sent to LINS Lab.</span>
+      </div>
+      <p class="opportunity-status"><span class="status-dot"></span>{{ .Params.status }}</p>
+      <h2>Start a conversation.</h2>
+      <p>Tell us about your interests and how you would like to contribute to LINS Lab.</p>
+
+      <form class="application-form" action="{{ site.Params.applicationFormEndpoint }}" method="POST" enctype="multipart/form-data" data-application-form>
+        <input type="hidden" name="_subject" value="LINS Lab application" data-application-subject>
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_next" value="{{ printf "%s?application=submitted" .Permalink }}">
+        <input class="application-honeypot" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <div class="application-field">
+          <label for="application-name">Name</label>
+          <input id="application-name" name="Name" type="text" autocomplete="name" required data-application-name>
+        </div>
+
+        <div class="application-field">
+          <label for="application-email">Email</label>
+          <input id="application-email" name="email" type="email" autocomplete="email" required data-application-email>
+        </div>
+
+        <div class="application-field">
+          <label for="application-type">Position sought</label>
+          <select id="application-type" name="Position sought" required data-application-type>
+            <option value="" selected disabled>Select one</option>
+            <option value="PhD">Ph.D.</option>
+            <option value="Undergrad">Undergraduate</option>
+            <option value="MS">M.S.</option>
+            <option value="Postdoc">Postdoctoral</option>
+            <option value="Visiting scholar">Visiting scholar</option>
+          </select>
+        </div>
+
+        <div class="application-field-row">
+          <div class="application-field">
+            <label for="application-year">Start year</label>
+            <input id="application-year" name="Start year" type="number" inputmode="numeric" min="{{ now.Year }}" max="{{ add now.Year 10 }}" placeholder="{{ now.Year }}" required data-application-year>
+          </div>
+          <div class="application-field">
+            <label for="application-period">Start term</label>
+            <select id="application-period" name="Start term" required data-application-period>
+              <option value="" selected disabled>Select</option>
+              <option value="Spring">Spring</option>
+              <option value="Summer">Summer</option>
+              <option value="Fall">Fall</option>
+              <option value="Flexible/Other">Flexible / other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="application-field">
+          <label for="application-content">Your interests</label>
+          <span class="application-field-hint">What questions motivate you, what experience do you bring, and how does LINS Lab connect to your goals?</span>
+          <textarea id="application-content" name="Content" rows="6" required data-application-content></textarea>
+        </div>
+
+        <div class="application-field application-file-field">
+          <label for="application-cv">CV <span>PDF required</span></label>
+          <input id="application-cv" name="CV" type="file" accept="application/pdf,.pdf" required data-application-cv>
+        </div>
+
+        <div class="application-field application-file-field" data-transcript-field hidden>
+          <label for="application-transcripts">Transcripts <span>PDF, optional but preferred</span></label>
+          <input id="application-transcripts" name="Transcripts" type="file" accept="application/pdf,.pdf" disabled data-application-transcripts>
+        </div>
+
+        <p class="application-file-note">PDF files only, with a combined limit of 10 MB. Application materials are delivered through <a href="https://formsubmit.co/documentation" target="_blank" rel="noopener">FormSubmit</a>.</p>
+        <p class="application-error" data-application-error hidden></p>
+        <button class="button button-primary" type="submit">Review application</button>
+      </form>
+
+      <div class="opportunity-meta">
+        <p><strong>Questions?</strong><br><a href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a></p>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<dialog class="application-review" data-application-review aria-labelledby="application-review-title">
+  <div class="application-review-shell">
+    <header class="application-review-header">
+      <div>
+        <p class="eyebrow">Review before sending</p>
+        <h2 id="application-review-title">Application email</h2>
+      </div>
+      <button class="application-review-close" type="button" aria-label="Close review" data-application-review-close>×</button>
+    </header>
+    <div class="application-review-body">
+      <div class="application-review-subject">
+        <span>Subject</span>
+        <strong data-review-subject></strong>
+      </div>
+      <dl class="application-review-details">
+        <div><dt>Name</dt><dd data-review-name></dd></div>
+        <div><dt>Email</dt><dd data-review-email></dd></div>
+        <div><dt>Position sought</dt><dd data-review-type></dd></div>
+        <div><dt>Start term</dt><dd data-review-start></dd></div>
+        <div class="application-review-content"><dt>Content</dt><dd data-review-content></dd></div>
+        <div><dt>CV</dt><dd data-review-cv></dd></div>
+        <div data-review-transcripts-row><dt>Transcripts</dt><dd data-review-transcripts></dd></div>
+      </dl>
+      <p class="application-review-note">Confirming will send this information and the listed PDF files to {{ site.Params.email }}.</p>
+    </div>
+    <footer class="application-review-actions">
+      <button class="button button-secondary" type="button" data-application-review-close>Edit application</button>
+      <button class="button button-primary" type="button" data-application-confirm>Confirm and submit</button>
+    </footer>
+  </div>
+</dialog>
+{{ end }}

@@ -1,0 +1,64 @@
+{{ define "main" }}
+<section class="publications-section shell">
+  <div class="publication-tools">
+    <div class="publication-search">
+      <label for="publication-search">Search publications</label>
+      <input id="publication-search" type="search" placeholder="Search title, author, or journal…" data-publication-search>
+    </div>
+    <div class="year-filters" aria-label="Filter publications by year">
+      <button class="year-filter is-active" type="button" data-year-filter="all">All</button>
+      {{ range (.Pages.GroupByParam "year" "desc") }}
+        <button class="year-filter" type="button" data-year-filter="{{ .Key }}">{{ .Key }}</button>
+      {{ end }}
+    </div>
+  </div>
+
+  <div class="publication-groups">
+    {{ range (.Pages.GroupByParam "year" "desc") }}
+      <section class="publication-group" data-publication-group>
+        <h2 class="publication-year">{{ .Key }}</h2>
+        <div class="publication-list">
+          {{ range $index, $publication := .Pages.ByWeight }}
+            <article class="publication-item" data-publication data-year="{{ $publication.Params.year }}">
+              <span class="publication-index">{{ printf "%02d" (add $index 1) }}</span>
+              <div>
+                <h2>{{ $publication.Title }}</h2>
+                <p class="publication-authors">{{ $publication.Params.authors }}</p>
+                <p class="publication-venue">{{ $publication.Params.venue }}</p>
+                {{ $abstractID := printf "abstract-%v-%d" $publication.Params.year $index | urlize }}
+                {{ if or $publication.Params.doi $publication.Params.pdf $publication.Params.links $publication.Params.abstract }}
+                  <div class="publication-links">
+                    {{ with $publication.Params.abstract }}
+                      <button class="publication-abstract-toggle" type="button" aria-expanded="false" aria-controls="{{ $abstractID }}" data-publication-abstract-toggle>
+                        Abstract <span aria-hidden="true">↓</span>
+                      </button>
+                    {{ end }}
+                    {{ with $publication.Params.doi }}
+                      <a class="publication-doi" href="{{ printf "https://doi.org/%s" . | safeURL }}" target="_blank" rel="noopener">DOI: {{ . }}</a>
+                    {{ end }}
+                    {{ with $publication.Params.pdf }}
+                      {{ $pdfURL := . }}
+                      {{ $localPDF := hasPrefix $pdfURL "/" }}
+                      {{ if $localPDF }}{{ $pdfURL = (strings.TrimPrefix "/" $pdfURL) | relURL }}{{ end }}
+                      <a href="{{ $pdfURL }}" target="_blank" rel="noopener"{{ if $localPDF }} download{{ end }}>PDF ↓</a>
+                    {{ end }}
+                    {{ with $publication.Params.links }}
+                      {{ range . }}<a href="{{ .url }}" target="_blank" rel="noopener">{{ .label }} ↗</a>{{ end }}
+                    {{ end }}
+                  </div>
+                {{ end }}
+                {{ with $publication.Params.abstract }}
+                  <div class="publication-abstract" id="{{ $abstractID }}" hidden>
+                    <p>{{ . }}</p>
+                  </div>
+                {{ end }}
+              </div>
+            </article>
+          {{ end }}
+        </div>
+      </section>
+    {{ end }}
+  </div>
+  <p class="publication-empty" data-publication-empty hidden>No publications match that search.</p>
+</section>
+{{ end }}

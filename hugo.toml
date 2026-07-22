@@ -1,0 +1,46 @@
+baseURL = "https://lins-lab-at-clemson.github.io/"
+locale = "en-US"
+title = "LINS Lab at Clemson University"
+enableRobotsTXT = true
+disableKinds = ["taxonomy", "term", "rss"]
+
+[params]
+  description = "The Lin Lab for Intelligent Nexus Systems of Water and Society advances sustainable and resilient water futures through hydrology, systems modeling, AI, and decision analytics."
+  shortName = "LINS Lab"
+  longName = "Lin Lab for Intelligent Nexus Systems of Water and Society"
+  email = "chungyl@clemson.edu"
+  address = "Room 310A, Lowry Hall, Clemson, SC 29634"
+  school = "School of Civil and Environmental Engineering and Earth Sciences"
+  schoolURL = "https://www.clemson.edu/cecas/departments/ceees/index.html"
+  linkedinURL = "https://www.linkedin.com/in/chungyi-lin"
+  githubURL = "https://github.com/LINS-Lab-at-Clemson"
+  scholarURL = "https://scholar.google.com/citations?user=_54LOaYAAAAJ&hl=en&oi=ao"
+  orcidURL = "https://orcid.org/0000-0002-9464-4696"
+  applicationFormEndpoint = "https://formsubmit.co/chungyl@clemson.edu"
+
+[menus]
+  [[menus.main]]
+    name = "Home"
+    pageRef = "/"
+    weight = 10
+  [[menus.main]]
+    name = "Research"
+    pageRef = "/research"
+    weight = 20
+  [[menus.main]]
+    name = "Team"
+    pageRef = "/team"
+    weight = 30
+  [[menus.main]]
+    name = "Publications"
+    pageRef = "/publications"
+    weight = 40
+  [[menus.main]]
+    name = "Opportunities"
+    pageRef = "/opportunities"
+    weight = 50
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true

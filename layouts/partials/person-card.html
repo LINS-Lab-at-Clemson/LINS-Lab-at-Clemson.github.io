@@ -1,0 +1,33 @@
+{{ $person := .page }}
+{{ $class := .class | default "" }}
+<article class="person-card {{ $class }}">
+  <div class="person-photo">
+    <img src="{{ strings.TrimPrefix "/" $person.Params.image | relURL }}" alt="Portrait of {{ $person.Title }}" loading="lazy">
+  </div>
+  <div class="person-content">
+    <p class="person-role">{{ $person.Params.role }}</p>
+    <h2>{{ $person.Title }}</h2>
+    <div class="person-bio">{{ $person.Content }}</div>
+    {{ if ne $class "person-card-pi" }}
+      <button class="person-bio-toggle" type="button" aria-expanded="false" hidden><span data-person-bio-label>More</span> <span class="person-bio-toggle-icon" aria-hidden="true">↓</span></button>
+    {{ end }}
+    {{ with $person.Params.links }}
+      <div class="person-links" data-person-links>
+        <div class="person-links-primary" data-person-links-primary>
+          {{ range . }}
+            {{ $href := .url }}
+            {{ if hasPrefix $href "/" }}{{ $href = (strings.TrimPrefix "/" $href) | relURL }}{{ end }}
+            {{ $external := or (hasPrefix .url "https://") (hasPrefix .url "http://") }}
+            <a href="{{ $href }}"{{ if or $external .newTab }} target="_blank" rel="noopener"{{ end }}>{{ .label }} ↗</a>
+          {{ end }}
+        </div>
+        <div class="person-links-overflow" data-person-links-overflow hidden>
+          <button class="person-links-toggle" type="button" aria-expanded="false" aria-label="Show more links" data-person-links-toggle>
+            <span aria-hidden="true">•••</span>
+          </button>
+          <div class="person-links-menu" data-person-links-menu hidden></div>
+        </div>
+      </div>
+    {{ end }}
+  </div>
+</article>

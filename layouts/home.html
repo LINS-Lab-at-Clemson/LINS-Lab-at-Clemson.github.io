@@ -1,0 +1,89 @@
+{{ define "main" }}
+<section class="home-hero" data-parallax-hero>
+  <div class="hero-background" aria-hidden="true" data-parallax-background></div>
+  <div class="home-hero-inner shell">
+    <div class="home-hero-copy">
+      <p class="eyebrow">Water · Systems · Society</p>
+      <h1>Connecting science, decisions, and society for <em>resilient water futures.</em></h1>
+        <div class="hero-lede">
+          <p>The <strong>L</strong>in Lab for <strong>I</strong>ntelligent <strong>N</strong>exus <strong>S</strong>ystems of Water and Society (<strong>LINS Lab</strong>) investigates the interactions among the environment, infrastructure, technology, and society to advance sustainable and resilient water systems planning, management, and operation.</p>
+        </div>
+      <div class="hero-actions">
+        <a class="button button-primary" href="{{ "research/" | relURL }}">Explore our research</a>
+        <a class="button button-secondary" href="{{ "opportunities/" | relURL }}">Join the lab</a>
+      </div>
+    </div>
+    <div class="hero-visual" aria-label="Water and society illustration">
+      <div class="hero-figure-layer" data-parallax-figure>
+        <img src="{{ "images/hero-water-society.png" | relURL }}" alt="Two people connecting within a water droplet" width="750" height="750">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="home-intro shell">
+  <div>
+    <p class="eyebrow">Our perspective</p>
+    <h2>Water challenges are inseparable from human decisions.</h2>
+  </div>
+  <div class="home-intro-copy">
+    <p>We study water as a <strong>coupled system</strong>—where hydrology, infrastructure, institutions, technology, and human behavior continuously interact.</p>
+    <p>By integrating hydrology, systems modeling, artificial intelligence, and decision analytics, we support decisions under uncertainty and co-create solutions with diverse stakeholders.</p>
+    <a class="text-link" href="{{ "research/" | relURL }}">How we work</a>
+  </div>
+</section>
+
+<section class="thrusts-section">
+  <div class="shell">
+    <div class="thrusts-heading">
+      <p class="eyebrow">Research thrusts</p>
+    </div>
+    <div class="thrust-grid">
+      {{ range $index, $thrust := .Params.thrusts }}
+        <article class="thrust-card">
+          <span class="thrust-number">0{{ add $index 1 }}</span>
+          <img class="thrust-icon" src="{{ $thrust.icon | relURL }}" alt="" width="256" height="256" loading="lazy">
+          <h3>{{ $thrust.title }}</h3>
+          <p>{{ $thrust.description }}</p>
+        </article>
+      {{ end }}
+    </div>
+  </div>
+</section>
+
+{{ with site.GetPage "/research" }}
+<section class="featured-research shell">
+  <div class="section-heading selected-work-heading">
+    <div>
+      <p class="eyebrow">Selected work</p>
+    </div>
+    <a class="text-link" href="{{ .RelPermalink }}">View all projects</a>
+  </div>
+  <div class="featured-grid">
+    {{ range first 3 .Pages.ByWeight }}
+      <a class="featured-card" href="{{ .RelPermalink }}">
+        <div class="featured-card-image">
+          <img src="{{ strings.TrimPrefix "/" .Params.image | relURL }}" alt="" loading="lazy">
+        </div>
+        <div class="featured-card-content">
+          <p class="card-kicker">{{ delimit (first 1 .Params.tags) "" }}</p>
+          <h3>{{ .Title }}</h3>
+          <p>{{ .Params.summary }}</p>
+          <span class="card-arrow" aria-hidden="true">↗</span>
+        </div>
+      </a>
+    {{ end }}
+  </div>
+</section>
+{{ end }}
+
+<section class="join-banner">
+  <div class="join-banner-inner shell">
+    <div>
+      <p class="eyebrow">Grow with us</p>
+      <h2>Curious minds from many disciplines are welcome here.</h2>
+    </div>
+    <a class="button button-secondary" href="{{ "opportunities/" | relURL }}">See opportunities</a>
+  </div>
+</section>
+{{ end }}

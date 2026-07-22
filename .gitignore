@@ -1,0 +1,9 @@
+# Hugo build output
+/public/
+/resources/_gen/
+/.hugo_build.lock
+
+# Operating system and editor files
+.DS_Store
+.idea/
+.vscode/

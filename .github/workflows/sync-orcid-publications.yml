@@ -1,0 +1,96 @@
+name: Sync publications from ORCID
+
+on:
+  schedule:
+    # Every Monday at 09:17 UTC (05:17 or 04:17 Eastern, depending on DST).
+    - cron: "17 9 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: orcid-publication-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    env:
+      BASE_BRANCH: ${{ github.event.repository.default_branch }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: "0.164.0"
+          extended: true
+
+      - name: Prepare automation branch
+        env:
+          BRANCH: automation/orcid-publications
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin "$BASE_BRANCH"
+          if git ls-remote --exit-code --heads origin "$BRANCH" >/dev/null 2>&1; then
+            git fetch origin "$BRANCH"
+            git checkout -B "$BRANCH" FETCH_HEAD
+            git merge --no-edit "origin/$BASE_BRANCH"
+          else
+            git checkout -b "$BRANCH" "origin/$BASE_BRANCH"
+          fi
+
+      - name: Import new ORCID works
+        env:
+          ORCID_ID: "0000-0002-9464-4696"
+          ORCID_CLIENT_ID: ${{ secrets.ORCID_CLIENT_ID }}
+          ORCID_CLIENT_SECRET: ${{ secrets.ORCID_CLIENT_SECRET }}
+        run: python scripts/sync_orcid_publications.py
+
+      - name: Validate generated content
+        run: |
+          python -m unittest discover -s tests -v
+          hugo --gc --minify
+
+      - name: Commit and push changes
+        env:
+          BRANCH: automation/orcid-publications
+        run: |
+          if [[ -z "$(git status --porcelain -- content/publications)" ]]; then
+            echo "No new publication files to commit."
+            exit 0
+          fi
+          git add content/publications
+          git commit -m "content: import publications from ORCID"
+          git push origin "HEAD:$BRANCH"
+
+      - name: Open pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BRANCH: automation/orcid-publications
+        run: |
+          if git diff --quiet "origin/$BASE_BRANCH...HEAD" -- content/publications; then
+            echo "No publication changes need a pull request."
+            exit 0
+          fi
+          open_prs="$(gh pr list --head "$BRANCH" --base "$BASE_BRANCH" --state open --json number --jq 'length')"
+          if [[ "$open_prs" -gt 0 ]]; then
+            echo "Updated the existing ORCID publication pull request."
+          else
+            gh pr create \
+              --base "$BASE_BRANCH" \
+              --head "$BRANCH" \
+              --title "Add publications found on ORCID" \
+              --body "Automated weekly import of new public works from ORCID. Metadata is enriched through Crossref when a DOI is available. Please review authors, venue, date, and abstract before merging."
+          fi

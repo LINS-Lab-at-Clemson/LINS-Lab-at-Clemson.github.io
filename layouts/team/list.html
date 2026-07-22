@@ -1,0 +1,70 @@
+{{ define "main" }}
+{{ $pi := where .Pages.ByWeight "Params.group" "pi" }}
+{{ $current := where .Pages.ByWeight "Params.group" "current" }}
+{{ $alumni := where .Pages.ByWeight "Params.group" "alumni" }}
+
+<section class="team-hero shell">
+  <header class="team-hero-copy">
+    <p class="eyebrow">Our team</p>
+    <h1>People behind the questions.</h1>
+    <p class="team-hero-deck">{{ .Params.deck }}</p>
+  </header>
+  {{ range first 1 $pi }}
+    {{ partial "person-card.html" (dict "page" . "class" "person-card-pi") }}
+  {{ end }}
+</section>
+
+<div class="team-directory shell">
+  <section class="team-group" aria-labelledby="current-members-title" data-team-view-group="current" data-default-team-view="gallery">
+    <div class="team-group-header">
+      <h2 class="eyebrow team-group-title" id="current-members-title">Current members</h2>
+      <div class="project-view-controls team-view-controls" role="group" aria-label="Choose a current members layout">
+        <button class="project-view-button" type="button" data-team-view-button="gallery" aria-pressed="true">
+          <span class="project-view-icon project-view-icon-standard" aria-hidden="true"></span>
+          Gallery
+        </button>
+        <button class="project-view-button" type="button" data-team-view-button="compact" aria-pressed="false">
+          <span class="project-view-icon project-view-icon-grid" aria-hidden="true"></span>
+          Compact
+        </button>
+      </div>
+    </div>
+    <div class="team-grid" data-team-grid data-team-view="gallery">
+      {{ range $current }}
+        {{ partial "person-card.html" (dict "page" .) }}
+      {{ end }}
+    </div>
+  </section>
+
+  <section class="team-group" aria-labelledby="alumni-title" data-team-view-group="alumni" data-default-team-view="compact">
+    <div class="team-group-header">
+      <h2 class="eyebrow team-group-title" id="alumni-title">Alumni</h2>
+      {{ if $alumni }}
+        <div class="project-view-controls team-view-controls" role="group" aria-label="Choose an alumni layout">
+          <button class="project-view-button" type="button" data-team-view-button="gallery" aria-pressed="false">
+            <span class="project-view-icon project-view-icon-standard" aria-hidden="true"></span>
+            Gallery
+          </button>
+          <button class="project-view-button" type="button" data-team-view-button="compact" aria-pressed="true">
+            <span class="project-view-icon project-view-icon-grid" aria-hidden="true"></span>
+            Compact
+          </button>
+        </div>
+      {{ end }}
+    </div>
+    {{ if $alumni }}
+      <div class="team-grid team-grid-alumni" data-team-grid data-team-view="compact">
+        {{ range $alumni }}
+          {{ partial "person-card.html" (dict "page" . "class" "person-card-alumni") }}
+        {{ end }}
+      </div>
+    {{ else }}
+      <p class="team-empty">Alumni profiles will be added here as the LINS Lab community grows.</p>
+    {{ end }}
+  </section>
+
+  <div class="team-note">
+    <p><strong>Interested in becoming part of the team?</strong> We welcome students and researchers from engineering, hydrology, computer science, data science, climate science, policy, and related fields. <a href="{{ "opportunities/" | relURL }}">Explore opportunities →</a></p>
+  </div>
+</div>
+{{ end }}

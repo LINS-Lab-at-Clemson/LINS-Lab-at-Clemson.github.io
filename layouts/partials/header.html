@@ -1,0 +1,20 @@
+<header class="site-header" data-header>
+  <div class="header-inner shell">
+    <a class="brand" href="{{ site.Home.RelPermalink }}" aria-label="LINS Lab home">
+      <img src="{{ "images/brand/lins-logo.png" | relURL }}" alt="LINS Lab" width="203" height="104">
+    </a>
+
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-navigation" data-menu-toggle>
+      <span class="menu-toggle-label">Menu</span>
+      <span class="menu-toggle-lines" aria-hidden="true"><i></i><i></i></span>
+    </button>
+
+    <nav class="site-nav" id="site-navigation" aria-label="Primary navigation" data-nav>
+      {{ $current := . }}
+      {{ range site.Menus.main }}
+        {{ $active := or ($current.IsMenuCurrent "main" .) ($current.HasMenuCurrent "main" .) }}
+        <a href="{{ .URL }}"{{ if $active }} class="is-active" aria-current="page"{{ end }}>{{ .Name }}</a>
+      {{ end }}
+    </nav>
+  </div>
+</header>

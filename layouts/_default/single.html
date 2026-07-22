@@ -1,0 +1,18 @@
+{{ define "main" }}
+<article class="detail-page">
+  <header class="detail-hero shell">
+    <a class="back-link" href="{{ .Parent.RelPermalink }}"{{ if eq .Section "research" }} data-research-back{{ end }}>← Back to {{ .Parent.Title }}</a>
+    <p class="eyebrow">{{ .Section | humanize }}</p>
+    <h1>{{ .Title }}</h1>
+    {{ with .Params.summary }}<p class="detail-summary">{{ . }}</p>{{ end }}
+  </header>
+  {{ with .Params.image }}
+    <div class="detail-image shell">
+      <img src="{{ strings.TrimPrefix "/" . | relURL }}" alt="{{ $.Title }}" loading="eager">
+    </div>
+  {{ end }}
+  <div class="prose detail-content shell-narrow">
+    {{ .Content }}
+  </div>
+</article>
+{{ end }}
