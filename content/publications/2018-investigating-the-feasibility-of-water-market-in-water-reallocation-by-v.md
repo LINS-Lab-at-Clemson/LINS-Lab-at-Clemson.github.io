@@ -1,0 +1,10 @@
++++
+title = "Investigating the Feasibility of Water Market in Water Reallocation by Virtual Gaming Simulation during Drought Periods: A Case Study of the Taoyuan Area, Taiwan"
+year = 2018
+weight = 10
+authors = "Zun-Lin Wang, Ching-pin Tung, Chung-Yi Lin, Bing-Chen Jhong, and Jung Huang"
+doi = "10.1002/essoar.10500279.1"
+abstract = "Under the impact of global warming and climate change, the frequency of extreme precipitation and drought events have been increasing. In Taiwan, the government usually guides agricultural fallows to meet the needs of domestic, public, and industrial water during droughts. However, this situation causes that the cultivation rights of farmers are not guaranteed even though the priority of agricultural water is higher than that of industrial water. To this end, a framework of virtual water trading market is proposed in this study to protect the cultivation right. The water supply system and field water balance models that use the historical drought event during 2003 to 2004 as the hydrological scenario have been completed to support the gaming water-trading auction. Through the gaming simulation process, agricultural or industrial stakeholders are invited to carry on the round-designed water trading. Based on the results of player's decisions, we discuss the feasibility of water market in this region and investigate the possibility of adopting the water market as a solution of the water reallocation during times of drought. An application with the principle of user charge in the Taoyuan region of Taiwan is successfully implemented. The results show that industrial stakeholders are willing to pay more costs of water purchase to prevent severe loss of production line shutdown caused by water shortage. After several times of the gaming auction, stakeholders may learn the trading information in terms of evaluating the price of water and estimating the possible amount of water. This study can further provide a potential substitute solution to the government and policy makers when the water reallocation is considered during drought periods."
+orcid_put_code = "209692334"
+generated_by = "orcid-sync"
++++
