@@ -1671,37 +1671,13 @@ h3 {
   margin-top: 14px;
 }
 
-.application-submit-notice {
-  display: grid;
-  gap: 3px;
-  margin-bottom: 24px;
-  padding: 14px 16px;
-  border: 1px solid rgba(127, 217, 174, 0.45);
-  background: rgba(127, 217, 174, 0.12);
-  color: white;
-  font-size: 0.85rem;
-}
-
-.application-submit-notice span {
-  color: rgba(255, 255, 255, 0.76);
-}
-
 .application-form {
   display: grid;
   gap: 17px;
   margin-top: 26px;
 }
 
-.application-honeypot {
-  position: absolute !important;
-  left: -10000px !important;
-  width: 1px !important;
-  height: 1px !important;
-  overflow: hidden !important;
-}
-
-.application-field,
-.application-file-field {
+.application-field {
   display: grid;
   gap: 7px;
   min-width: 0;
@@ -1719,14 +1695,6 @@ h3 {
   font-weight: 780;
   letter-spacing: 0.055em;
   text-transform: uppercase;
-}
-
-.application-field label span {
-  color: rgba(255, 255, 255, 0.58);
-  font-size: 0.65rem;
-  font-weight: 650;
-  letter-spacing: 0;
-  text-transform: none;
 }
 
 .application-field-hint {
@@ -1774,44 +1742,12 @@ h3 {
   box-shadow: 0 0 0 3px rgba(245, 102, 0, 0.16);
 }
 
-.application-file-field input[type="file"] {
-  min-height: 0;
-  padding: 7px;
-  color: rgba(255, 255, 255, 0.75);
-  font-size: 0.76rem;
-}
-
-.application-file-field input[type="file"]::file-selector-button {
-  margin-right: 10px;
-  padding: 7px 9px;
-  border: 0;
-  background: rgba(255, 255, 255, 0.14);
-  color: white;
-  cursor: pointer;
-  font: inherit;
-  font-weight: 750;
-}
-
-.application-file-note,
-.opportunity-card .application-file-note {
+.application-email-note,
+.opportunity-card .application-email-note {
   margin: -2px 0 0;
   color: rgba(255, 255, 255, 0.58);
   font-size: 0.72rem;
   line-height: 1.55;
-}
-
-.application-file-note a {
-  color: white;
-}
-
-.application-error,
-.opportunity-card .application-error {
-  margin: 0;
-  padding: 11px 12px;
-  border: 1px solid rgba(255, 188, 164, 0.48);
-  background: rgba(245, 102, 0, 0.11);
-  color: #ffe3d6;
-  font-size: 0.78rem;
 }
 
 .opportunity-meta {

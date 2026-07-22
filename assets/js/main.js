@@ -388,13 +388,10 @@ const applicationReview = document.querySelector('[data-application-review]');
 
 if (applicationForm && applicationReview) {
   const typeInput = applicationForm.querySelector('[data-application-type]');
-  const transcriptField = applicationForm.querySelector('[data-transcript-field]');
-  const transcriptInput = applicationForm.querySelector('[data-application-transcripts]');
-  const cvInput = applicationForm.querySelector('[data-application-cv]');
-  const subjectInput = applicationForm.querySelector('[data-application-subject]');
-  const applicationError = applicationForm.querySelector('[data-application-error]');
   const confirmButton = applicationReview.querySelector('[data-application-confirm]');
-  const maximumUploadSize = 10 * 1024 * 1024;
+  const recipient = applicationForm.dataset.applicationRecipient;
+  let emailSubject = '';
+  let emailBody = '';
 
   const reviewFields = {
     subject: applicationReview.querySelector('[data-review-subject]'),
@@ -403,46 +400,8 @@ if (applicationForm && applicationReview) {
     type: applicationReview.querySelector('[data-review-type]'),
     start: applicationReview.querySelector('[data-review-start]'),
     content: applicationReview.querySelector('[data-review-content]'),
-    cv: applicationReview.querySelector('[data-review-cv]'),
-    transcripts: applicationReview.querySelector('[data-review-transcripts]'),
-    transcriptRow: applicationReview.querySelector('[data-review-transcripts-row]'),
+    attachments: applicationReview.querySelector('[data-review-attachments]'),
   };
-
-  function updateTranscriptField() {
-    const showTranscripts = typeInput.value === 'PhD';
-    transcriptField.hidden = !showTranscripts;
-    transcriptInput.disabled = !showTranscripts;
-    if (!showTranscripts) transcriptInput.value = '';
-  }
-
-  function isPdf(file) {
-    return file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
-  }
-
-  function showApplicationError(message) {
-    applicationError.textContent = message;
-    applicationError.hidden = !message;
-  }
-
-  function validateApplicationFiles() {
-    showApplicationError('');
-    const cv = cvInput.files[0];
-    const transcripts = transcriptInput.disabled ? null : transcriptInput.files[0];
-    const files = [cv, transcripts].filter(Boolean);
-
-    if (files.some((file) => !isPdf(file))) {
-      showApplicationError('Please upload PDF files only.');
-      return false;
-    }
-
-    const totalSize = files.reduce((sum, file) => sum + file.size, 0);
-    if (totalSize > maximumUploadSize) {
-      showApplicationError('The CV and transcripts must be 10 MB or less in total.');
-      return false;
-    }
-
-    return true;
-  }
 
   function value(selector) {
     return applicationForm.querySelector(selector).value.trim();
@@ -457,24 +416,27 @@ if (applicationForm && applicationReview) {
     const periodInput = applicationForm.querySelector('[data-application-period]');
     const period = periodInput.value;
     const content = value('[data-application-content]');
-    const cv = cvInput.files[0];
-    const transcripts = transcriptInput.disabled ? null : transcriptInput.files[0];
-    const subject = `# ${year} ${period} ${type} ${name}`;
+    const attachments = type === 'PhD' ? 'CV and transcripts' : 'CV';
 
-    subjectInput.value = subject;
-    reviewFields.subject.textContent = subject;
+    emailSubject = `# ${year} ${period} | ${selectedType} | ${name}`;
+    emailBody = [
+      'Dear Dr. Lin,',
+      '',
+      `Please remember to attach your ${attachments} before sending. (delete this line after attaching the files)`,
+      '',
+      content,
+      '',
+    ].join('\n');
+    confirmButton.href = `mailto:${recipient}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+
+    reviewFields.subject.textContent = emailSubject;
     reviewFields.name.textContent = name;
     reviewFields.email.textContent = email;
     reviewFields.type.textContent = selectedType;
     reviewFields.start.textContent = `${period} ${year}`;
     reviewFields.content.textContent = content;
-    reviewFields.cv.textContent = cv ? cv.name : 'Not provided';
-    reviewFields.transcriptRow.hidden = !transcripts;
-    reviewFields.transcripts.textContent = transcripts ? transcripts.name : '';
+    reviewFields.attachments.textContent = attachments;
   }
-
-  typeInput.addEventListener('change', updateTranscriptField);
-  updateTranscriptField();
 
   applicationForm.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -482,7 +444,6 @@ if (applicationForm && applicationReview) {
       applicationForm.reportValidity();
       return;
     }
-    if (!validateApplicationFiles()) return;
 
     populateApplicationReview();
     applicationReview.showModal();
@@ -493,19 +454,6 @@ if (applicationForm && applicationReview) {
   });
 
   confirmButton.addEventListener('click', () => {
-    confirmButton.disabled = true;
-    confirmButton.textContent = 'Submitting…';
-    applicationForm.submit();
+    applicationReview.close();
   });
-}
-
-const applicationSubmitNotice = document.querySelector('[data-application-submit-notice]');
-if (applicationSubmitNotice) {
-  const currentUrl = new URL(window.location.href);
-  if (currentUrl.searchParams.get('application') === 'submitted') {
-    applicationSubmitNotice.hidden = false;
-    currentUrl.searchParams.delete('application');
-    window.history.replaceState(window.history.state, '', currentUrl);
-    applicationSubmitNotice.focus();
-  }
 }

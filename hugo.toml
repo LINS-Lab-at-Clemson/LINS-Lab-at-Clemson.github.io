@@ -16,7 +16,6 @@ disableKinds = ["taxonomy", "term", "rss"]
   githubURL = "https://github.com/LINS-Lab-at-Clemson"
   scholarURL = "https://scholar.google.com/citations?user=_54LOaYAAAAJ&hl=en&oi=ao"
   orcidURL = "https://orcid.org/0000-0002-9464-4696"
-  applicationFormEndpoint = "https://formsubmit.co/chungyl@clemson.edu"
 
 [menus]
   [[menus.main]]
