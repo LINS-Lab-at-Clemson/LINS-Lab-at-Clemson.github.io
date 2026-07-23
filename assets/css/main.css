@@ -1240,6 +1240,7 @@ h3 {
 }
 
 .person-card-pi .person-content {
+  min-width: 0;
   padding: 30px 32px 32px;
 }
 
@@ -2592,7 +2593,7 @@ h3 {
 
   .person-card-pi .person-photo {
     min-height: 0;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 1 / 1;
   }
 
   .person-photo {
